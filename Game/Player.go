@@ -93,10 +93,11 @@ func (p *Player) get_dest() rl.Rectangle {
 	)
 }
 
-func (p *Player) load() {
+func (p *Player) load(pos rl.Vector2) {
 	p.is_loaded = true
 	p.txt = rl.LoadTexture("Assets/Images/Player.png")
 	fmt.Println("Player Loaded")
+	p.pos = pos
 }
 
 func (p *Player) update() {

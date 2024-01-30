@@ -5,8 +5,22 @@ import rl "github.com/gen2brain/raylib-go/raylib"
 type Room struct {
 	gag GAG
 	npc NPC
+
+	floor rl.Rectangle
 }
 
 func (r *Room) draw() {
-	rl.DrawRectangle(0, 200, 500, 300, rl.Green)
+	rl.DrawRectangleRec(r.floor, rl.Green)
+}
+
+func (r *Room) update() {
+
+}
+
+func (r *Room) load() {
+
+}
+
+func (r *Room) unload() {
+
 }

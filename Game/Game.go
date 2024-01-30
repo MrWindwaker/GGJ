@@ -1,6 +1,7 @@
 package game
 
 import (
+	"fmt"
 	"sync"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -59,6 +60,9 @@ func (g *GameEngine) init() {
 
 	W_WIDTH = rl.GetMonitorWidth(0)
 	W_HEIGHT = rl.GetMonitorHeight(0)
+
+	fmt.Println("Width: ", W_WIDTH)
+	fmt.Println("Height: ", W_HEIGHT)
 
 	rl.SetWindowSize(W_WIDTH, W_HEIGHT)
 	rl.SetWindowPosition(0, 0)

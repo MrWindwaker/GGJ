@@ -13,8 +13,9 @@ type SceneManager struct {
 
 	pl *Player
 
-	exp  Explotion_GAG
-	hood NPC
+	exp   Explotion_GAG
+	hood  NPC
+	inter Interactable
 
 	loaded bool
 
@@ -37,6 +38,14 @@ func Get_SceneManager() *SceneManager {
 				loaded:       false,
 				pl:           Get_Player(),
 				is_mt_loaded: false,
+				inter: Interactable{
+					active:     false,
+					active_key: rl.KeyE,
+					width:      128,
+					height:     128,
+					pos:        rl.NewVector2(1000, 700),
+					spent:      false,
+				},
 			}
 		}
 	}
@@ -75,12 +84,18 @@ func (sm *SceneManager) draw_menu() {
 
 func (sm *SceneManager) load_assets() {
 
-	sm.hood.set_values("Assets/Images/NPCs/Fox.png", 4)
+	sm.hood.set_values("Assets/Images/NPCs/Fox.png", 4, rl.NewVector2(1000, 700))
+	sm.hood.change_direction(-1)
+
 	sm.exp.load()
 	sm.loaded = true
 
 	if !sm.pl.is_loaded {
-		sm.pl.load()
+		sm.pl.load(rl.NewVector2(200, 700))
+	}
+
+	sm.inter.script = func() {
+		sm.inter.spent = true
 	}
 }
 
@@ -96,9 +111,10 @@ func (sm *SceneManager) draw_gameplay() {
 		sm.pl.draw()
 	}
 
+	sm.inter.draw()
+
 	sm.hood.draw()
 	sm.exp.draw()
-
 }
 
 func (sm *SceneManager) draw_credits() {
@@ -142,8 +158,9 @@ func (sm *SceneManager) draw() {
 		sm.hood.active = true
 	}
 
-	if sm.pl.is_loaded {
+	if sm.c_state == GAMEPLAY {
 		sm.pl.update()
+		sm.inter.update(*sm.pl)
 	}
 
 	rl.BeginDrawing()

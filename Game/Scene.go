@@ -9,5 +9,5 @@ const (
 )
 
 type Scene struct {
-	room Room
+	room []Room
 }
